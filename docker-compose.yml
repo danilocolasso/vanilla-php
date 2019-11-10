@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+
+  #Data persistence service layer
+  mysql:
+    container_name: webjump-mysql
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: event
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  #Application layer
+  php:
+    container_name: webjump-php
+    build:
+      context: ./
+    restart: always
+    volumes:
+      - ./conf/php/:/usr/local/etc/php/:ro
+      - ./conf/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf:ro
+      - ./app:/var/www/html:cached
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+
+  #Phpmyadmin
+  phpmyadmin:
+    container_name: webjump-phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_PASSWORD: root
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - mysql
