@@ -2,9 +2,9 @@
 
 namespace Cagetory\Model;
 
-use System\Core\Model;
+use System\Core\AbstractModel;
 
-class CategoryModel extends Model
+class CategoryModel extends AbstractModel
 {
 
 }

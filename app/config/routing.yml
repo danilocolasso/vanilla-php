@@ -1,0 +1,14 @@
+category_list:
+  path: /category
+  controller: \Category\Controller\CategoryController
+  action: list
+  methods:
+    - GET
+
+category_new:
+  path: /category/new
+  controller: \Category\Controller\CategoryController
+  action: new
+  methods:
+    - GET
+    - POST

@@ -9,7 +9,7 @@ use System\Database\QueryBuilders\MysqlQueryBuilder;
  * Class Model
  * @package Core
  */
-abstract class Model
+abstract class AbstractModel
 {
     /**
      * @var \System\Database\Connection\ConnectionInterface
