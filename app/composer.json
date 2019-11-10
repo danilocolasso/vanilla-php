@@ -1,0 +1,21 @@
+{
+    "name": "danilocolasso/assessment-backend",
+    "authors": [
+        {
+            "name": "Danilo Colasso",
+            "email": "danilo.colasso@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "^7.0",
+        "ext-pdo": "*",
+        "ext-yaml": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/",
+            "System\\": "system/"
+        }
+    }
+}
