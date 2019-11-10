@@ -1,0 +1,5 @@
+.DS_Store
+app/vendor/
+.idea/*
+data/*
+app/composer.lock
