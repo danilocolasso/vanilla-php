@@ -6,3 +6,5 @@ database:
   port: 3306
   base: 'webjump'
   charset: utf8mb4
+
+render: twig

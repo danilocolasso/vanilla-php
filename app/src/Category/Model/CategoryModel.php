@@ -1,6 +1,6 @@
 <?php
 
-namespace Cagetory\Model;
+namespace Category\Model;
 
 use System\Core\AbstractModel;
 

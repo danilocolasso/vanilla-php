@@ -9,8 +9,7 @@
     ],
     "require": {
         "php" : "^7.0",
-        "ext-json": "*",
-        "ext-yaml": "*"
+        "twig/twig": "^2.12"
     },
     "autoload": {
         "psr-4": {
