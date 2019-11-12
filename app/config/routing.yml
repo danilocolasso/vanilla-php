@@ -1,3 +1,10 @@
+dashboard:
+  path: /
+  controller: \Dashboard\Controller\DashboardController
+  action: index
+  methods:
+    - GET
+
 category_list:
   path: /category
   controller: \Category\Controller\CategoryController
@@ -12,3 +19,10 @@ category_new:
   methods:
     - GET
     - POST
+
+product_list:
+  path: /product
+  controller: \Product\Controller\ProductController
+  action: list
+  methods:
+    - GET

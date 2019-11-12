@@ -2,6 +2,7 @@
 
 namespace System\Core;
 
+use System\Render\RenderInterface;
 use System\Render\TwigRender;
 
 /**
@@ -10,7 +11,16 @@ use System\Render\TwigRender;
  */
 class AbstractController
 {
+    /**
+     * @var RenderInterface
+     */
     protected $render;
+
+    /**
+     * All app routes
+     * @var array
+     */
+    protected $routes;
 
     /**
      * AbstractController constructor.
@@ -22,8 +32,13 @@ class AbstractController
             __DIR__ . '../../../config/parameters.yml'
         );
 
+        $this->routes = yaml_parse_file(
+            __DIR__ . '../../../config/routing.yml'
+        );
+
         switch ($parameters['render']) {
-            case 'twig':$this->render = new TwigRender();
+            case 'twig':
+                $this->render = new TwigRender($this->routes);
                 break;
 
             default:

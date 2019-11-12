@@ -1,0 +1,39 @@
+<!doctype html>
+<html ⚡>
+    {# Header #}
+    {% block head %}
+        {% include 'includes/head.twig' %}
+    {% endblock %}
+
+    {# Sidebar #}
+    {% block sidebar %}
+        {% include 'components/sidebar.html.twig' %}
+    {% endblock %}
+
+    {# Header #}
+    {% block header %}
+        {% include 'components/header.html.twig' %}
+    {% endblock %}
+
+    {# Body #}
+    {% block body %}
+        <body>
+            {# Main Content #}
+            <main class="content">
+                {% block content %}
+                    {# MAGIC! #}
+                {% endblock %}
+            </main>
+
+            {# Footer #}
+            {% block footer %}
+                {% include 'components/footer.html.twig' %}
+            {% endblock %}
+
+            {# Scripts #}
+            {% block scripts %}
+                {% include 'includes/scripts.html.twig' %}
+            {% endblock %}
+        </body>
+    {% endblock %}
+</html>
