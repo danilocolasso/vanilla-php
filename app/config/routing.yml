@@ -26,3 +26,10 @@ product_list:
   action: list
   methods:
     - GET
+
+product_new:
+  path: /product/new
+  controller: \Product\Controller\ProductController
+  action: new
+  methods:
+    - GET

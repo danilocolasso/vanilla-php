@@ -2,17 +2,17 @@
 <html ⚡>
     {# Header #}
     {% block head %}
-        {% include 'includes/head.twig' %}
+        {% include 'template/includes/head.twig' %}
     {% endblock %}
 
     {# Sidebar #}
     {% block sidebar %}
-        {% include 'components/sidebar.html.twig' %}
+        {% include 'template/components/sidebar.html.twig' %}
     {% endblock %}
 
     {# Header #}
     {% block header %}
-        {% include 'components/header.html.twig' %}
+        {% include 'template/components/header.html.twig' %}
     {% endblock %}
 
     {# Body #}
@@ -27,12 +27,12 @@
 
             {# Footer #}
             {% block footer %}
-                {% include 'components/footer.html.twig' %}
+                {% include 'template/components/footer.html.twig' %}
             {% endblock %}
 
             {# Scripts #}
             {% block scripts %}
-                {% include 'includes/scripts.html.twig' %}
+                {% include 'template/includes/scripts.html.twig' %}
             {% endblock %}
         </body>
     {% endblock %}

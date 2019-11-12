@@ -10,4 +10,9 @@ class ProductController extends AbstractController
     {
         $this->render('list.html.twig', ['name' => 'test']);
     }
+
+    public function new()
+    {
+        $this->render('new.html.twig', ['name' => 'test']);
+    }
 }

@@ -46,8 +46,8 @@ class TwigRender implements RenderInterface
     public function render($path, $view, $data)
     {
         $paths = [
-            'template'  => [getcwd(), 'resources', 'templates'],
-            'cache'     => [getcwd(), 'cache', 'twig']
+            'template'  => ['resources', 'views'],
+            'cache'     => ['cache', 'twig']
         ];
 
         foreach($paths as $key => $value) {
@@ -56,7 +56,7 @@ class TwigRender implements RenderInterface
 
         //TODO create 404 page
 
-        $loader     = new FilesystemLoader([$path, $paths['template']]);
+        $loader     = new FilesystemLoader([$path, $paths['template']], getcwd());
         $this->twig = new Environment($loader);
         //$twig   = new Environment($loader, ['cache' => $paths['cache']]);
 
