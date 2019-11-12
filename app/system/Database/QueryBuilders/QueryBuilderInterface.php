@@ -12,7 +12,7 @@ interface QueryBuilderInterface
      * Create select query
      *
      * @param array $columns
-     * @return void
+     * @return self
      */
     public function select(array $columns = ['*']);
 
@@ -20,7 +20,7 @@ interface QueryBuilderInterface
      * Create Insert query
      *
      * @param array $columns
-     * @return void
+     * @return self
      */
     public function insert(array $columns);
 
@@ -28,13 +28,13 @@ interface QueryBuilderInterface
      * Create Update query
      *
      * @param array $columns
-     * @return void
+     * @return self
      */
     public function update(array $columns);
 
     /**
      * Create Delete query
-     * @return void
+     * @return self
      */
     public function delete();
 
@@ -43,6 +43,7 @@ interface QueryBuilderInterface
      *
      * @param string $clause
      * @param string|null $operator
+     * @return self
      */
     public function where(string $clause, string $operator = null);
 
@@ -78,4 +79,29 @@ interface QueryBuilderInterface
      * @return self
      */
     public function groupBy($clause);
+
+    /**
+     * Add JOIN to query
+     * @param $table
+     * @param $condition
+     * @param null|string $type [inner, left]
+     * @return self
+     */
+    public function join($table, $condition, $type = null);
+
+    /**
+     * Add INNER JOIN to query
+     * @param $table
+     * @param $condition
+     * @return self
+     */
+    public function innerJoin($table, $condition);
+
+    /**
+     * Add LEFT JOIN to query
+     * @param $table
+     * @param $condition
+     * @return self
+     */
+    public function leftJoin($table, $condition);
 }

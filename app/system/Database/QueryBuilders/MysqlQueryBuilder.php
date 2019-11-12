@@ -23,6 +23,12 @@ class MysqlQueryBuilder implements QueryBuilderInterface
     private $where;
 
     /**
+     * JOIN clause array
+     * @var array
+     */
+    private $join;
+
+    /**
      * ORDER BY clause array
      * @var array
      */
@@ -52,15 +58,39 @@ class MysqlQueryBuilder implements QueryBuilderInterface
 
     /**
      * Compile Query to string
-     *
+     * @throws \Exception
      * @return string
      */
     public function getQuery()
     {
+        if(strpos($this->query, 'DELETE') === 0 && !$this->where) {
+            throw new \Exception(
+                'Cannot create UPDATE Query without "WHERE" clause.'
+            );
+        }
+
+        if(strpos($this->query, 'UPDATE') === 0 && !$this->where) {
+            throw new \Exception(
+                'Cannot create UPDATE Query without "WHERE" clause.'
+            );
+        }
+
+        if(!$this->from) {
+            throw new \Exception('No table set.');
+        }
+
+        if(!$this->query) {
+            $this->select();
+        }
+
         $query = [$this->query];
 
         if($this->where) {
             $query[] = 'WHERE ' . implode(' ', $this->where);
+        }
+
+        if($this->join) {
+            $query[] = ' ' . implode(' ', $this->join);
         }
 
         if($this->order) {
@@ -76,17 +106,39 @@ class MysqlQueryBuilder implements QueryBuilderInterface
 
     /**
      * @inheritDoc
+     * @return MysqlQueryBuilder
      */
     public function select(array $columns = ['*'])
     {
-        $this->query = vsprintf('SELECT %s FROM %s;', [
+        $this->query = vsprintf('SELECT %s FROM %s', [
             implode(',', $columns),
             $this->from
         ]);
+
+        return $this;
     }
 
     /**
      * @inheritDoc
+     * @return MysqlQueryBuilder
+     */
+    public function update(array $columns)
+    {
+        foreach($columns as $key => $column) {
+            $columns[$key] = $column . ' = ?';
+        }
+
+        $this->query = vsprintf('UPDATE %s SET %s', [
+            $this->from,
+            implode(',', $columns)
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     * @return MysqlQueryBuilder
      */
     public function insert(array $columns)
     {
@@ -100,41 +152,19 @@ class MysqlQueryBuilder implements QueryBuilderInterface
             implode(',', $columns),
             implode(',', $values)
         ]);
+
+        return $this;
     }
 
     /**
      * @inheritDoc
-     */
-    public function update(array $columns)
-    {
-        if(!$this->where) {
-            throw new \Exception(
-                'Cannot create UPDATE Query without "WHERE" clause.'
-            );
-        }
-
-        foreach($columns as $key => $column) {
-            $columns[$key] = $column . ' = ?';
-        }
-
-        $this->query = vsprintf('UPDATE %s SET %s', [
-            $this->from,
-            implode(',', $columns)
-        ]);
-    }
-
-    /**
-     * @inheritDoc
+     * @return MysqlQueryBuilder
      */
     public function delete()
     {
-        if(!$this->where) {
-            throw new \Exception(
-                'Cannot create DELETE Query without "WHERE" clause.'
-            );
-        }
-
         $this->query = sprintf('DELETE FROM %s', $this->from);
+
+        return $this;
     }
 
     /**
@@ -142,8 +172,9 @@ class MysqlQueryBuilder implements QueryBuilderInterface
      */
     public function flush()
     {
-        $this->from = null;
+        $this->from  = null;
         $this->where = [];
+        $this->join  = [];
         $this->order = [];
         $this->group = [];
         $this->query = null;
@@ -169,7 +200,7 @@ class MysqlQueryBuilder implements QueryBuilderInterface
      */
     public function andWhere(string $clause)
     {
-        $this->where($clause, 'AND');
+        return $this->where($clause, 'AND');
     }
 
     /**
@@ -178,7 +209,7 @@ class MysqlQueryBuilder implements QueryBuilderInterface
      */
     public function orWhere(string $clause)
     {
-        $this->where($clause, 'OR');
+        return $this->where($clause, 'OR');
     }
 
     /**
@@ -213,5 +244,45 @@ class MysqlQueryBuilder implements QueryBuilderInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     * @return MysqlQueryBuilder
+     */
+    public function join($table, $condition, $type = null)
+    {
+        if($type) {
+            $this->join[] = strtolower($type) == 'inner'
+                ? 'INNER JOIN'
+                : 'LEFT JOIN'
+            ;
+        } else {
+            $this->join[] = 'JOIN';
+        }
+
+        $this->join[] = $table;
+        $this->join[] = 'ON';
+        $this->join[] = $condition;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     * @return MysqlQueryBuilder
+     */
+    public function innerJoin($table, $condition)
+    {
+        return $this->join($table, $condition, 'INNER');
+    }
+
+    /**
+     * @inheritDoc
+     * @return MysqlQueryBuilder
+     */
+    public function leftJoin($table, $condition)
+    {
+        return $this->join($table, $condition, 'LEFT');
     }
 }
