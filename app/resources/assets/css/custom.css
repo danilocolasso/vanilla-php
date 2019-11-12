@@ -1,0 +1,9 @@
+.product-list img {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 2px;
+}
+
+.product-list .product-info .product-name,
+.product-list .product-info .special-price {
+    max-width: 166px;
+}

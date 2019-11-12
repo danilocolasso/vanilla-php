@@ -4,6 +4,7 @@ namespace System\Render;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 /**
@@ -78,6 +79,15 @@ class TwigRender implements RenderInterface
         $this->twig->addFunction(new TwigFunction('route', function ($path) {
             return $this->routes[$path]['path'];
         }));
+
+        $this->twig->addFilter(new TwigFilter('truncate',
+            function($text, $max = 50, $ellipsis = '...') {
+                return strlen($text) <= $max
+                    ? $text
+                    : substr($text, 0, $max - strlen($ellipsis)) . $ellipsis
+                ;
+            }
+        ));
     }
 
     /**
