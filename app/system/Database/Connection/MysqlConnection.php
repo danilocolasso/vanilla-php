@@ -68,7 +68,9 @@ class MysqlConnection implements ConnectionInterface
      */
     public function bindParam(string $param, $value)
     {
-        return $this->stmt->bindParam($param, $value);
+        $this->stmt->bindParam($param, $value);
+
+        return $this;
     }
 
     /**
@@ -76,7 +78,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function execute($data = null)
     {
-        return $this->stmt = $this->stmt->execute($data);
+        return $this->stmt->execute($data);
     }
 
     /**
@@ -84,7 +86,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function fetch()
     {
-        $this->stmt->fetch();
+        return $this->stmt->fetch();
     }
 
     /**
@@ -92,7 +94,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function fetchAll()
     {
-        $this->stmt->fetchAll();
+        return $this->stmt->fetchAll();
     }
 
     /**
@@ -100,7 +102,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function rowCount()
     {
-        $this->stmt->rowCount();
+        return $this->stmt->rowCount();
     }
 
     /**
@@ -108,7 +110,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function lastInsertId()
     {
-        $this->connection->lastInsertId();
+        return $this->connection->lastInsertId();
     }
 
     /**
