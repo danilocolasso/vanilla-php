@@ -8,6 +8,6 @@ class DashboardController extends AbstractController
 {
     public function index()
     {
-        $this->render('dashboard.html.twig', ['name' => 'test']);
+        $this->render('dashboard.html.twig', ['title' => 'Dashboard']);
     }
 }

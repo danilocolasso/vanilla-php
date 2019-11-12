@@ -8,11 +8,11 @@ class CategoryController extends AbstractController
 {
     public function list($request)
     {
-        $this->render('list.html.twig', ['name' => 'test']);
+        $this->render('list.html.twig', ['title' => 'Categories']);
     }
 
     public function new()
     {
-        $this->render('new.html.twig', ['name' => 'test']);
+        $this->render('new.html.twig', ['title' => 'Add Category']);
     }
 }
