@@ -17,23 +17,10 @@ abstract class AbstractModel
     protected $db;
 
     /**
-     * @var \System\Database\QueryBuilders\QueryBuilderInterface
-     */
-    protected $queryBuilder;
-
-    /**
      * Connection constructor.
      * @throws \Exception
      */
     public function __construct()
-    {
-        $this->switchDriver();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    protected function switchDriver()
     {
         $parameters = yaml_parse_file(
             __DIR__ . '../../../config/parameters.yml'
@@ -46,11 +33,6 @@ abstract class AbstractModel
                     $this->db = new MysqlConnection();
                     $this->db->connect($parameters['database']);
                 }
-
-                //Query Builder Singleton
-                if(!$this->queryBuilder){
-                    $this->queryBuilder = new MysqlQueryBuilder();
-                }
                 break;
 
             default:
@@ -60,5 +42,28 @@ abstract class AbstractModel
                 ));
                 break;
         }
+    }
+
+    /**
+     * Create a new MySQL Query Builder
+     * @param $table
+     * @return MysqlQueryBuilder
+     */
+    public function createQueryBuilder($table)
+    {
+        return new MysqlQueryBuilder($table);
+    }
+
+    /**
+     * Find All registers
+     * @param string $table table name
+     * @return array
+     * @throws \Exception
+     */
+    public function findAll($table)
+    {
+        $qb = new MysqlQueryBuilder($table);
+
+        return $this->db->query($qb->getQuery())->fetchAll();
     }
 }
