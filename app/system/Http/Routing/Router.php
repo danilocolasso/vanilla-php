@@ -14,6 +14,8 @@ class Router
 {
     private $request;
 
+    private $params = [];
+
     private $supportedHttpMethods = [
         'GET',
         'POST'
@@ -26,6 +28,7 @@ class Router
     function __construct(RequestInterface $request)
     {
         $this->request = $request;
+        $this->request->params = [];
     }
 
     /**
@@ -53,7 +56,74 @@ class Router
     private function formatRoute($route)
     {
         $result = rtrim($route, '/');
+        $path   = explode('/', $route);
+        $params = [];
+
+        foreach($path as $key => $token) {
+            if($token) {
+                if ($token[0] === '{' && $token[strlen($token) - 1] === '}') {
+                    $token = ltrim(rtrim($token, '}'), '{');
+                    array_push($params, $token);
+                }
+            }
+        }
+
+        $this->params[$route] = $params ? $params : false;
+
         return $result === '' ? '/' : $result;
+    }
+
+    /**
+     * Map the route and append params to Request Object
+     * @param $requestedRoute
+     * @return int|string
+     */
+    private function mapRequestedRoute($requestedRoute)
+    {
+        $route = rtrim($requestedRoute, '/');
+
+        //Route without params
+        if (
+            isset($this->params[$requestedRoute])
+            && $this->params[$requestedRoute] === false
+        ) {
+            return $route === '' ? '/' : $route;
+        }
+
+        //Route with params
+        foreach ($this->params as $key => $value) {
+            if (is_array($value)) {
+                $append = true;
+                $params = [];
+                $values = [];
+                $path   = explode('/', $key);
+
+                $requestedPath = explode('/', $route);
+
+                for ($i = 1; $i < count($requestedPath); $i++) {
+                    if (
+                        $path[$i][0] === '{'
+                        && $path[$i][strlen($path[$i]) - 1] === '}'
+                    ) {
+                        $params[] = ltrim(rtrim($path[$i], '}'), '{');
+                        $values[] = $requestedPath[$i];
+                        continue;
+
+                    } else if ($path[$i] !== $requestedPath[$i]) {
+                        $append = false;
+                    }
+                }
+
+                //Append params to request object
+                if ($append && count($requestedPath) === count($path)) {
+                    for ($i = 0; $i < count($params); $i++) {
+                        $this->request->params[$params[$i]] = $values[$i];
+                    }
+
+                    return $key;
+                }
+            }
+        }
     }
 
     /**
@@ -80,9 +150,7 @@ class Router
     function resolve()
     {
         $methodDictionary = $this->{strtolower($this->request->requestMethod)};
-
-        $formatedRoute = $this->formatRoute($this->request->requestUri);
-
+        $formatedRoute = $this->mapRequestedRoute($this->request->requestUri);
         $method = $methodDictionary[$formatedRoute];
 
         if(is_null($method)) {
