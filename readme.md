@@ -25,14 +25,14 @@ O projeto encontra-se na pasta /app.
 docker-compose up -d
 ```
 Pronto, seu ambiente está configurado!
-Para acessar o projeto basta ir até [localhost](localhost). Mas antes precisamos configurar o banco de dados e as dependências...
+Para acessar o projeto basta ir até [localhost](http://localhost). Mas antes precisamos configurar o banco de dados e as dependências...
 
 ### Banco de Dados
 
 Crie uma base com o nome "webjump".
 
 ##### Com o Docker
-Pode-se importar o dump via PhpMyAdmin. Basta acessar [localhost:8080](localhost:8080).
+Pode-se importar o dump via PhpMyAdmin. Basta acessar [localhost:8080](http://localhost:8080).
 Ou, em seu terminal, execute o seguinte comando:
 ```
 docker-compose exec mysql mysql -u root -p webjump < database.sql
