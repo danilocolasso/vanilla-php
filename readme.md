@@ -52,12 +52,14 @@ Agora basta configurar seu banco de dados no arquivo *parameters.yml*, que encon
 
 # Explicando o Projeto
 Tecnologias utilizadas:
+
   - Composer para gerenciamento de dependências.
   - Twig para sistema de templates.
   -  Configuração de env em arquivos yaml
   -  Docker como ambiente.
 
 ##### To do
+
  - Implementar os métodos PUT e DELETE no Router.
  - Service para validação de formulários. Muito provavelmente utilizaria o Respect Validations.
  - Talvez criar entidades e preenche-las automaticamente ao fazer um select no banco de dados (uma espécie de ORM).
