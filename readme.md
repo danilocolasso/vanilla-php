@@ -4,6 +4,7 @@
   - pecl
   - libyaml-dev
   - yaml
+  - MySQL 5.7
 
 # Instalação
 
