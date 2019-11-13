@@ -1,45 +1,68 @@
-# Você quer ser um desenvolvedor Backend na Web Jump?
-Criamos esse teste para avaliar seus conhecimentos e habilidades como desenvolvedor backend.
+# Test Back-end Webjump!
+### Requisitos do sistema:
+  - PHP ^7.0
+  - pecl
+  - libyaml-dev
+  - yaml
 
-# O teste
-O desafio é desenvolver um sistema de gerenciamento de produtos. Esse sistema será composto de um cadastro de produtos e categorias. Os requisitos desse sistema estão listados nos tópicos abaixo.
-Não existe certo ou errado, queremos saber como você se sai em situações reais como esse desafio.
+# Instalação
 
-# Instruções
-- O foco principal do nosso teste é o backend. Para facilitar você poderá utilizar os arquivos html  disponíveis no diretório assets
-- Crie essa aplicação como se fosse uma aplicação real, que seria utilizada pelo WebJump
-- Não utilize nenhum Framework. 
-- Fique à vontade para usar bibliotecas/componentes externos
-- Seguir princípios **SOLID** 
-- Utilize boas práticas de programação
-- Utilize boas práticas de git
-- Documentar como rodar o projeto
-- Crie uma documentação simples comentando sobre as tecnologias, versões e soluções adotadas
+Clone o repositório
 
-# Requisitos
-- O sistema deverá ser desenvolvido utilizando a linguagem PHP (de preferência a versão mais nova) ou outra linguagem se assim foi especificado para sua avaliação por nossa equipe.
-- Você deve criar um CRUD que permita cadastrar as seguintes informações:
-	- **Produto**: Nome, SKU (Código), preço, descrição, quantidade e categoria (cada produto pode conter uma ou mais categorias)
-	- **Categoria**: Código e nome.
-- Salvar as informações necessárias em um banco de dados (relacional ou não), de sua escolha
-- Criar um importador de produtos/categorias via CLI no formato  de CSV. Importar o arquivo disponibilizado no repositório (assets/import.csv).
-- Gerar logs das ações (diferencial)
-- Testes automatizados com informação da cobertura de testes (diferencial)
-- Como um desafio adicional você pode implementar o upload de imagem no cadastro de produtos
+```
+git clone https://danilocolasso@bitbucket.org/danilocolasso/assessment-backend.git webjump
+```
 
-# O que será avaliado
-- Estrutura e organização do código e dos arquivos
-- Soluções adotadas
-- Tecnologias utilizadas
-- Qualidade
-- Padrões PSR, Design Patterns
-- Enfim, tudo será observado e levado em conta
+O projeto encontra-se na pasta /app.
 
-# Como iniciar o desenvolvimento
-- Fork esse repositório na sua conta do BitBucket.
-- Crie uma branch com o nome desafio
+### Docker - Configuração de ambiente (opcional)
 
-# Como enviar seu teste
-Envie um email para [carreira@webjump.com.br] com o link do seu repositório
+  - Baixe e instale o [Docker](https://www.docker.com/products/docker-desktop). Caso não possua uma conta, [realize o cadastro](https://hub.docker.com/signup), será necessário.
+  - Na pasta raiz encontram-se os arquivos para executar um container com toda a configuração necessária para o projeto.
+  - Após instalado e configurado, abra o terminal e execute o seguinte comando:
 
-Qualquer dúvida sobre o teste, fique a vontade para entrar em contato conosco.
+```
+docker-compose up -d
+```
+Pronto, seu ambiente está configurado!
+Para acessar o projeto basta ir até [localhost](localhost). Mas antes precisamos configurar o banco de dados e as dependências...
+
+### Banco de Dados
+
+Crie uma base com o nome "webjump".
+
+##### Com o Docker
+Pode-se importar o dump via PhpMyAdmin. Basta acessar [localhost:8080](localhost:8080).
+Ou, em seu terminal, execute o seguinte comando:
+```
+docker-compose exec mysql mysql -u root -p webjump < database.sql
+```
+
+### Dependências
+Para gerenciamento das dependências, utilizaremos o [Composer](https://getcomposer.org/). Caso não o tenha instalado, baixe e configure-o seguindo [estas instruções](https://getcomposer.org/doc/00-intro.md).
+Após instalado, basta entrar na pasta do projeto (/app) e executar:
+```
+composer install
+```
+Pronto! O Composer irá instalar todas as dependências do projeto.
+
+Agora basta configurar seu banco de dados no arquivo *parameters.yml*, que encontra-se na pasta /config (não necessário caso esteja utilizando o docker).
+
+###### Tudo certo, o projeto está pronto para ser executado. ;)
+
+# Explicando o Projeto
+Tecnologias utilizadas:
+  - Composer para gerenciamento de dependências.
+  - Twig para sistema de templates.
+  -  Configuração de env em arquivos yaml
+  -  Docker como ambiente.
+
+##### To do
+ - Implementar os métodos PUT e DELETE no Router.
+ - Service para validação de formulários. Muito provavelmente utilizaria o Respect Validations.
+ - Talvez criar entidades e preenche-las automaticamente ao fazer um select no banco de dados (uma espécie de ORM).
+ - Tratar melhor as Exceptions.
+ - Criar mensagens no front-end para confirmação e informações de sucesso/erro.
+ - Gerar documentação (PHPDoc).
+ - Testes unitários (PHPUnit).
+ - Revisar todo o fonte em busca de melhorias.
