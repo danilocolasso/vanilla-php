@@ -64,11 +64,36 @@ class Request implements RequestInterface
                     $body[$key] = filter_input(
                         INPUT_POST,
                         $key,
-                        FILTER_SANITIZE_SPECIAL_CHARS
+                        FILTER_SANITIZE_SPECIAL_CHARS,
+                        (is_array($value) ? FILTER_REQUIRE_ARRAY : null)
                     );
                 }
                 return $body;
                 break;
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMethod()
+    {
+        return $this->requestMethod;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParam($name)
+    {
+        return $this->params[$name];
     }
 }

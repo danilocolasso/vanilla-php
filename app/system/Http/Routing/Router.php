@@ -12,14 +12,24 @@ use System\Http\Request\RequestInterface;
  */
 class Router
 {
-    private $request;
-
-    private $params = [];
-
-    private $supportedHttpMethods = [
+    /**
+     * Supported HTTP Methods
+     * @todo code DELETE and PUT methods
+     */
+    const SUPPORTED_HTTP_METHODS = [
         'GET',
         'POST'
     ];
+
+    /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
+     * @var array
+     */
+    private $params = [];
 
     /**
      * Router constructor.
@@ -41,7 +51,7 @@ class Router
     {
         list($route, $method) = $args;
 
-        if(!in_array(strtoupper($name), $this->supportedHttpMethods)) {
+        if(!in_array(strtoupper($name), self::SUPPORTED_HTTP_METHODS)) {
             $this->invalidMethodHandler();
         }
 
@@ -167,5 +177,10 @@ class Router
     function __destruct()
     {
         $this->resolve();
+    }
+
+    public function redirect()
+    {
+
     }
 }

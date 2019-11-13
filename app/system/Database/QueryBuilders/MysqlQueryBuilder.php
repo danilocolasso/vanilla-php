@@ -85,12 +85,12 @@ class MysqlQueryBuilder implements QueryBuilderInterface
 
         $query = [$this->query];
 
-        if($this->where) {
-            $query[] = 'WHERE ' . implode(' ', $this->where);
-        }
-
         if($this->join) {
             $query[] = ' ' . implode(' ', $this->join);
+        }
+
+        if($this->where) {
+            $query[] = 'WHERE ' . implode(' ', $this->where);
         }
 
         if($this->order) {

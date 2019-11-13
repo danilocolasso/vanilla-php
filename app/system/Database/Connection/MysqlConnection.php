@@ -58,7 +58,7 @@ class MysqlConnection implements ConnectionInterface
      */
     public function prepare(string $query)
     {
-        $this->stmt = $this->connection->prepare($this);
+        $this->stmt = $this->connection->prepare($query);
 
         return $this->stmt;
     }

@@ -17,6 +17,11 @@ abstract class AbstractModel
     protected $db;
 
     /**
+     * @var string
+     */
+    protected $table;
+
+    /**
      * Connection constructor.
      * @throws \Exception
      */
@@ -46,24 +51,43 @@ abstract class AbstractModel
 
     /**
      * Create a new MySQL Query Builder
-     * @param $table
+     * @param string|null $table
      * @return MysqlQueryBuilder
      */
-    public function createQueryBuilder($table)
+    public function createQueryBuilder($table = null)
     {
-        return new MysqlQueryBuilder($table);
+        return new MysqlQueryBuilder($table ? $table : $this->table);
     }
 
     /**
      * Find All registers
-     * @param string $table table name
      * @return array
      * @throws \Exception
      */
-    public function findAll($table)
+    public function findAll()
     {
-        $qb = new MysqlQueryBuilder($table);
+        $qb = new MysqlQueryBuilder($this->table);
 
         return $this->db->query($qb->getQuery())->fetchAll();
+    }
+
+    /**
+     * Find one register by id
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public function find($id)
+    {
+        $qb = new MysqlQueryBuilder($this->table);
+
+        $query = $qb
+            ->where('id = :id')
+            ->getQuery()
+        ;
+
+        $this->db->prepare($query)->execute(['id' => (int) $id]);
+
+        return $this->db->fetch();
     }
 }

@@ -28,12 +28,28 @@ class AbstractController
      */
     public function __construct()
     {
-        $parameters = yaml_parse_file(
-            __DIR__ . '../../../config/parameters.yml'
-        );
+        $this->setRoutes();
+        $this->switchRender();
+    }
 
+    /**
+     * Set route attribute according to routing.yml
+     */
+    private function setRoutes()
+    {
         $this->routes = yaml_parse_file(
             __DIR__ . '../../../config/routing.yml'
+        );
+    }
+
+    /**
+     * Switch render according to parameters.yml
+     * @throws \Exception
+     */
+    private function switchRender()
+    {
+        $parameters = yaml_parse_file(
+            __DIR__ . '../../../config/parameters.yml'
         );
 
         switch ($parameters['render']) {
@@ -48,6 +64,15 @@ class AbstractController
                 ));
                 break;
         }
+    }
+
+    /**
+     * Redirect to some route
+     * @param $routeName
+     */
+    protected function redirect($routeName)
+    {
+        return header('Location: ' . $this->routes[$routeName]['path']);
     }
 
     /**

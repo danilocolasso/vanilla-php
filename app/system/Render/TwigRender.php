@@ -76,9 +76,17 @@ class TwigRender implements RenderInterface
             return sprintf('/resources/assets/%s', ltrim($asset, '/'));
         }));
 
-        $this->twig->addFunction(new TwigFunction('route', function ($path) {
-            return $this->routes[$path]['path'];
-        }));
+        $this->twig->addFunction(
+            new TwigFunction('route', function ($path, $params = []) {
+                $route = $this->routes[$path]['path'];
+
+                foreach($params as $key => $value) {
+                    $route = str_replace('{' . $key . '}', $value, $route);
+                }
+
+                return $route;
+            })
+        );
 
         $this->twig->addFilter(new TwigFilter('truncate',
             function($text, $max = 50, $ellipsis = '...') {
