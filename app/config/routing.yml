@@ -5,31 +5,62 @@ dashboard:
   methods:
     - GET
 
-category_list:
+category:
   path: /category
   controller: \Category\Controller\CategoryController
-  action: list
+  action: index
   methods:
     - GET
 
-category_new:
-  path: /category/new
+category_create:
+  path: /category/add
   controller: \Category\Controller\CategoryController
-  action: new
+  action: create
   methods:
     - GET
     - POST
 
-product_list:
-  path: /product
-  controller: \Product\Controller\ProductController
-  action: list
+category_update:
+  path: /category/edit/{id}
+  controller: \Category\Controller\CategoryController
+  action: update
+  methods:
+    - GET
+    - POST
+
+category_delete:
+  path: /category/remove/{id}
+  controller: \Category\Controller\CategoryController
+  action: delete
   methods:
     - GET
 
-product_new:
-  path: /product/new
+product:
+  path: /product
   controller: \Product\Controller\ProductController
-  action: new
+  action: index
+  methods:
+    - GET
+
+product_create:
+  path: /product/add
+  controller: \Product\Controller\ProductController
+  action: create
+  methods:
+    - GET
+    - POST
+
+product_update:
+  path: /product/edit/{id}
+  controller: \Product\Controller\ProductController
+  action: update
+  methods:
+    - GET
+    - POST
+
+product_delete:
+  path: /product/remove/{id}
+  controller: \Product\Controller\ProductController
+  action: delete
   methods:
     - GET

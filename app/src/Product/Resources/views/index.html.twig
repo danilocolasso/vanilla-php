@@ -1,0 +1,70 @@
+{% extends 'template/base.html.twig' %}
+
+{% block content %}
+    <div class="header-list-page">
+        <h1 class="title">Products</h1>
+        <a href="{{ route('product_create') }}" class="btn-action">Add new Product</a>
+    </div>
+    <table class="data-grid">
+        <tr class="data-row">
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">Name</span>
+            </th>
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">SKU</span>
+            </th>
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">Price</span>
+            </th>
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">Quantity</span>
+            </th>
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">Categories</span>
+            </th>
+
+            <th class="data-grid-th">
+                <span class="data-grid-cell-content">Actions</span>
+            </th>
+        </tr>
+
+        {# Product List #}
+        {% for product in products %}
+            <tr class="data-row">
+                <td class="data-grid-td">
+                    <span class="data-grid-cell-content">{{ product.name }}</span>
+                </td>
+
+                <td class="data-grid-td">
+                    <span class="data-grid-cell-content">{{ product.sku }}</span>
+                </td>
+
+                <td class="data-grid-td">
+                    <span class="data-grid-cell-content">R$ {{ product.price|number_format(2, ',', '.') }}</span>
+                </td>
+
+                <td class="data-grid-td">
+                    <span class="data-grid-cell-content">{{ product.quantity }}</span>
+                </td>
+
+                <td class="data-grid-td">
+                    <span class="data-grid-cell-content">
+                        {% for category in product.categories %}
+                            {{ category }}
+                            {% if not loop.last %}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                </td>
+
+                <td class="data-grid-td">
+                    <div class="actions">
+                        <div class="action edit"><a href="{{ route('product_update', {id: product.id}) }}">Edit</a></div>
+                        <div class="action delete"><a href="{{ route('product_delete', {id: product.id}) }}">Delete</a></div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

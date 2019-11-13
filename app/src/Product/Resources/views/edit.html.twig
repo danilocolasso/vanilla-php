@@ -1,0 +1,47 @@
+{% extends 'template/base.html.twig' %}
+
+{% block content %}
+    <h1 class="title new-item">New Product</h1>
+
+    <form method="post">
+        {% if product is defined %}
+            <input type="hidden" name="id" value="{{ product.id }}">
+        {% endif %}
+        <div class="input-field">
+            <label for="sku" class="label">Product SKU</label>
+            <input type="text" name="sku" id="sku" class="input-text" value="{{ product is defined ? product.sku }}" />
+        </div>
+        <div class="input-field">
+            <label for="name" class="label">Product Name</label>
+            <input type="text" name="name" id="name" class="input-text" value="{{ product is defined ? product.name }}" />
+        </div>
+        <div class="input-field">
+            <label for="price" class="label">Price</label>
+            <input type="text" name="price" id="price" class="input-text" value="{{ product is defined ? product.price }}" />
+        </div>
+        <div class="input-field">
+            <label for="quantity" class="label">Quantity</label>
+            <input type="text" name="quantity" id="quantity" class="input-text" value="{{ product is defined ? product.quantity }}" />
+        </div>
+        <div class="input-field">
+            <label for="category" class="label">Categories</label>
+            {% for asd in product.categories %}
+                {{ asd.id }}
+            {% endfor %}
+            <select multiple="multiple" name="category[]" id="category" class="input-text">
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {{ product is defined ? (category.id in product.categories ? 'selected') }}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="input-field">
+            <label for="description" class="label">Description</label>
+            <textarea name="description" id="description" class="input-text">{{ product is defined ? product.description }}</textarea>
+        </div>
+        <div class="actions-form">
+            <a href="{{ route('product') }}" class="action back">Back</a>
+            <input class="btn-submit btn-action" type="submit" value="Save Product" />
+        </div>
+
+    </form>
+{% endblock %}

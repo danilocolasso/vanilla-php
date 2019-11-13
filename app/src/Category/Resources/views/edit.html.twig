@@ -3,19 +3,22 @@
 {% block content %}
     <h1 class="title new-item">New Category</h1>
 
-    <form>
+    <form method="post">
+        {% if category is defined %}
+            <input type="hidden" name="id" value="{{ category.id }}">
+        {% endif %}
         <div class="input-field">
             <label for="category-name" class="label">Category Name</label>
-            <input type="text" id="category-name" class="input-text" />
+            <input type="text" name="name" id="category-name" class="input-text" value="{{ category is defined ? category.name }}" />
 
         </div>
         <div class="input-field">
             <label for="category-code" class="label">Category Code</label>
-            <input type="text" id="category-code" class="input-text" />
+            <input type="text" name="code" id="category-code" class="input-text" value="{{ category is defined ? category.code }}" />
 
         </div>
         <div class="actions-form">
-            <a href="{{ route('category_list') }}" class="action back">Back</a>
+            <a href="{{ route('category') }}" class="action back">Back</a>
             <input class="btn-submit btn-action"  type="submit" value="Save" />
         </div>
     </form>

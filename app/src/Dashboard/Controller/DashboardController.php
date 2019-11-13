@@ -2,15 +2,14 @@
 
 namespace Dashboard\Controller;
 
-use Dashboard\Model\DashboardModel;
+use Product\Model\ProductModel;
 use System\Core\AbstractController;
 
 class DashboardController extends AbstractController
 {
     public function index()
     {
-        $model = new DashboardModel();
-        $products = $model->findProducts();
+        $products = (new ProductModel())->findProducts();
 
         $this->render('dashboard.html.twig', [
             'title'     => 'Dashboard',
