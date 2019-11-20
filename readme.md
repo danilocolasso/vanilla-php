@@ -1,7 +1,9 @@
 # Vanilla PHP
 ### Requisitos do sistema:
-  - PHP ^7.0
-  - MySQL 5.7
+  - PHP: ^7.0
+  - MySQL: 5.7
+  - ext-pdo: *,
+  - ext-yaml: *
  
  Ou Docker instalado.
 
