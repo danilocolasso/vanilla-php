@@ -8,8 +8,8 @@ body {
     }
 
     .link-logo img {
-      width: auto;
-      height: auto;
+      /*width: auto;*/
+      /*height: auto;*/
     }
     amp-sidebar#sidebar {
       width: 100%;
