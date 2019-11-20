@@ -2,7 +2,7 @@
 ### Requisitos do sistema:
   - PHP: ^7.0
   - MySQL: 5.7
-  - ext-pdo: *,
+  - ext-pdo: *
   - ext-yaml: *
  
  Ou Docker instalado.
