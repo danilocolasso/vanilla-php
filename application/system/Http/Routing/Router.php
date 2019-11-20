@@ -178,9 +178,4 @@ class Router
     {
         $this->resolve();
     }
-
-    public function redirect()
-    {
-
-    }
 }
