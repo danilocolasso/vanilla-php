@@ -37,6 +37,7 @@ class MysqlConnection implements ConnectionInterface
         try {
             $this->connection = new \PDO($dsn, $config['username'], $config['password'], $options);
         } catch (\PDOException $e) {
+            
             throw new \PDOException($e->getMessage(), (int) $e->getCode());
         }
 

@@ -1,6 +1,6 @@
 .DS_Store
-app/vendor/
-app/cache/*
 .idea/*
-data/*
-app/composer.lock
+application/vendor/
+application/cache/*
+database/mysql/
+application/composer.lock
